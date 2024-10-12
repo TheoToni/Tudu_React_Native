@@ -1,5 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { TouchableOpacity, StyleSheet, Text, View, Alert } from "react-native";
+import {
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  ScrollView,
+} from "react-native";
 import React from "react";
 
 export default function App() {
@@ -16,11 +23,16 @@ export default function App() {
         <Text style={styles.caption}>TUDU</Text>
       </View>
 
-      <View style={styles.todoListContainer}>
-        <TouchableOpacity style={styles.button} onPress={onPress}>
-          <Text style={styles.buttonText}>{title}</Text>
-        </TouchableOpacity>
-      </View>
+      <ScrollView contentContainerStyle={styles.todoListContainer}>
+        <Text>List of TODOs</Text>
+        <Text>List of TODOs</Text>
+        <Text>List of TODOs</Text>
+        <Text>List of TODOs</Text>
+      </ScrollView>
+
+      <TouchableOpacity style={styles.button} onPress={onPress}>
+        <Text style={styles.buttonText}>{title}</Text>
+      </TouchableOpacity>
 
       <StatusBar style="auto" />
     </View>
@@ -35,11 +47,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   titleContainer: {
-    flex: 1,
+    marginBottom: 20,
   },
   todoListContainer: {
-    justifyContent: "flex-end",
-    flex: 4,
+    paddingVertical: 10,
+    alignItems: "center",
+    // This controls the layout of items inside the ScrollView
   },
   button: {
     backgroundColor: "#ff6700", // Neon orange color
@@ -51,11 +64,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 10,
     elevation: 5, // For Android shadow
+    marginTop: 20,
   },
   caption: {
     fontSize: 50,
     fontWeight: "bold",
-    marginBottom: 50,
   },
   buttonText: {
     color: "#fff", // White text

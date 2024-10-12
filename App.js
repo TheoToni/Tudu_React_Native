@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#e6e6e6", // Soft light grey background for todo item
     padding: 10,
     marginBottom: 10,
-    borderRadius: 5,
+    borderRadius: 10,
     width: "100%", // Ensure the todo items take full width
   },
   todoText: {
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     color: "#3a506b", // Muted blue-gray for the todo text
   },
   deleteButton: {
-    backgroundColor: "#ff4d4d", // Red color for delete button
+    backgroundColor: "#3A3A3A", // Red color for delete button
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,

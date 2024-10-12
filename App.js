@@ -6,16 +6,31 @@ import {
   View,
   Alert,
   ScrollView,
+  TextInput,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 
 export default function App() {
-  // Define the onPress function and the button title
+  const [inputValue, setInputValue] = useState(""); // State for text input
+  const [todos, setTodos] = useState([]); // State for list of todos
+
+  // Function to handle adding a todo
   const onPress = () => {
-    Alert.alert("Button Pressed!");
+    if (inputValue.trim() === "") {
+      Alert.alert("Bitte einen Todo-Eintrag eingeben");
+      return;
+    }
+
+    setTodos([...todos, inputValue]); // Add new todo to the list
+    setInputValue(""); // Clear input after adding todo
   };
 
-  const title = "Add your todo"; // Define the button title
+  // Function to handle removing a todo
+  const removeTodo = (index) => {
+    setTodos(todos.filter((_, i) => i !== index)); // Remove todo by filtering it out
+  };
+
+  const title = "Todo hinzufügen"; // Button title
 
   return (
     <View style={styles.container}>
@@ -23,12 +38,34 @@ export default function App() {
         <Text style={styles.caption}>TUDU</Text>
       </View>
 
+      {/* ScrollView to display the list of todos */}
       <ScrollView contentContainerStyle={styles.todoListContainer}>
-        <Text>List of TODOs</Text>
-        <Text>List of TODOs</Text>
-        <Text>List of TODOs</Text>
-        <Text>List of TODOs</Text>
+        {todos.length > 0 ? (
+          todos.map((todo, index) => (
+            <View key={index} style={styles.todoItemContainer}>
+              <Text style={styles.todoText}>
+                {index + 1}. {todo}
+              </Text>
+              <TouchableOpacity
+                style={styles.deleteButton}
+                onPress={() => removeTodo(index)}
+              >
+                <Text style={styles.deleteButtonText}>X</Text>
+              </TouchableOpacity>
+            </View>
+          ))
+        ) : (
+          <Text>Noch keine Todos hinzugefügt.</Text>
+        )}
       </ScrollView>
+
+      {/* TextInput for entering todo */}
+      <TextInput
+        style={styles.input}
+        placeholder="Gib deinen Todo ein"
+        value={inputValue}
+        onChangeText={setInputValue}
+      />
 
       <TouchableOpacity style={styles.button} onPress={onPress}>
         <Text style={styles.buttonText}>{title}</Text>
@@ -52,7 +89,40 @@ const styles = StyleSheet.create({
   todoListContainer: {
     paddingVertical: 10,
     alignItems: "center",
-    // This controls the layout of items inside the ScrollView
+    width: "100%", // Makes sure the todo list takes full width
+  },
+  todoItemContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#e6e6e6", // Soft light grey background for todo item
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 5,
+    width: "100%", // Ensure the todo items take full width
+  },
+  todoText: {
+    fontSize: 18,
+    flex: 1, // Make the text take as much space as possible
+    color: "#3a506b", // Muted blue-gray for the todo text
+  },
+  deleteButton: {
+    backgroundColor: "#ff4d4d", // Red color for delete button
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+  },
+  deleteButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  input: {
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 20,
   },
   button: {
     backgroundColor: "#ff6700", // Neon orange color
@@ -64,7 +134,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 10,
     elevation: 5, // For Android shadow
-    marginTop: 20,
   },
   caption: {
     fontSize: 50,
